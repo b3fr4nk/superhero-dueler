@@ -1,5 +1,6 @@
 from ability import Ability
 from armor import Armor
+from weapon import Weapon
 
 class Hero:
   # We want our hero to have a default "starting_health",
@@ -17,6 +18,7 @@ class Hero:
         # and are set to empty lists on initialization
         self.abilities = list()
         self.armors = list()
+        self.weapons = list()
         # we know the name of our hero, so we assign it here
         self.name = name
         # similarly, our starting health is passed in, just like name
@@ -30,6 +32,11 @@ class Hero:
 
         self.abilities.append(ability)
 
+    def add_weapon(self, weapon):
+        '''Add weapon to self.abilities'''
+
+        self.weapons.append(weapon)
+
     def attack(self):
 
         total_damage = 0
@@ -37,6 +44,8 @@ class Hero:
         for ability in self.abilities:
             #use abilities and add damage to total damage
             total_damage += ability.attack()
+        for weapon in self.weapons:
+            total_damage += weapon.attack()
         #return total_damage
         return total_damage
 
@@ -102,14 +111,19 @@ if __name__ == "__main__":
   # If you run this file from the terminal
   # this block is executed.
 
-    hero1 = Hero("Wonder Woman")
-    hero2 = Hero("Dumbledore")
-    ability1 = Ability("Super Speed", 300)
-    ability2 = Ability("Super Eyes", 130)
-    ability3 = Ability("Wizard Wand", 80)
-    ability4 = Ability("Wizard Beard", 20)
-    hero1.add_ability(ability1)
-    hero1.add_ability(ability2)
-    hero2.add_ability(ability3)
-    hero2.add_ability(ability4)
-    hero1.fight(hero2)
+    # hero1 = Hero("Wonder Woman")
+    # hero2 = Hero("Dumbledore")
+    # ability1 = Ability("Super Speed", 300)
+    # ability2 = Ability("Super Eyes", 130)
+    # ability3 = Ability("Wizard Wand", 80)
+    # ability4 = Ability("Wizard Beard", 20)
+    # hero1.add_ability(ability1)
+    # hero1.add_ability(ability2)
+    # hero2.add_ability(ability3)
+    # hero2.add_ability(ability4)
+    # hero1.fight(hero2)
+
+    hero = Hero("Wonder Woman")
+    weapon = Weapon("Lasso of Truth", 90)
+    hero.add_weapon(weapon)
+    print(hero.attack())
