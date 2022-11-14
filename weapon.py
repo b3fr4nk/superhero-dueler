@@ -3,6 +3,11 @@ from ability import Ability
 
 class Weapon(Ability):
     def __init__(self, name, max_damage):
+        '''
+        Initialize the values passed into this
+        method as instance variables.
+        '''
+        
         super().__init__(name, max_damage)
 
     def attack(self):

@@ -14,15 +14,22 @@ class Hero:
             current_health: Integer
         '''
 
+        #kills and deaths start at 0
+        self.deaths = 0
+        self.kills = 0
+
         # abilities and armors don't have starting values,
         # and are set to empty lists on initialization
         self.abilities = list()
         self.armors = list()
         self.weapons = list()
+
         # we know the name of our hero, so we assign it here
         self.name = name
+
         # similarly, our starting health is passed in, just like name
         self.starting_health = starting_health
+
         # when a hero is created, their current health is
         # always the same as their starting health (no damage taken yet!)
         self.current_health = starting_health
@@ -76,6 +83,7 @@ class Hero:
 
         print(f"{self.name} took {damage} damage")
 
+
     def is_alive(self):
         '''Return True or False depending on whether the hero is alive or not.'''
 
@@ -86,6 +94,12 @@ class Hero:
         else:
             return True
 
+    def add_kill(self):
+        self.kills += 1
+
+    def add_death(self):
+        self.deaths += 1
+
     def fight(self, opponent):
         '''Current Hero will take turns fighting the opponent hero passed in.'''
 
@@ -94,15 +108,31 @@ class Hero:
                 self.take_damage(opponent.attack())
                 if not self.is_alive():
                     print(f"{opponent.name} has won")
-                    break
+                    self.add_death()
+                    opponent.add_kill()
+                    return opponent
 
                 opponent.take_damage(self.attack())
                 if not opponent.is_alive():
                     print(f"{self.name} has won")
-                    break
+                    self.add_kill()
+                    opponent.add_death()
+                    return self
                 
         else:
             print("Draw")
+            if len(self.abilities) != 0 and len(opponent.abilities) == 0:
+                opponent.current_health = 0
+                print(f"{self.name} has won")
+                self.add_kill()
+                opponent.add_death()
+                return self
+            elif len(self.abilities) == 0 and len(opponent.abilities) != 0:
+                self.current_health = 0
+                print(f"{opponent.name} has won")
+                self.add_death()
+                opponent.add_kill()
+                return opponent
 
 
 
@@ -111,19 +141,14 @@ if __name__ == "__main__":
   # If you run this file from the terminal
   # this block is executed.
 
-    # hero1 = Hero("Wonder Woman")
-    # hero2 = Hero("Dumbledore")
-    # ability1 = Ability("Super Speed", 300)
-    # ability2 = Ability("Super Eyes", 130)
-    # ability3 = Ability("Wizard Wand", 80)
-    # ability4 = Ability("Wizard Beard", 20)
-    # hero1.add_ability(ability1)
-    # hero1.add_ability(ability2)
-    # hero2.add_ability(ability3)
-    # hero2.add_ability(ability4)
-    # hero1.fight(hero2)
-
-    hero = Hero("Wonder Woman")
-    weapon = Weapon("Lasso of Truth", 90)
-    hero.add_weapon(weapon)
-    print(hero.attack())
+    hero1 = Hero("Wonder Woman")
+    hero2 = Hero("Dumbledore")
+    ability1 = Ability("Super Speed", 300)
+    ability2 = Ability("Super Eyes", 130)
+    ability3 = Ability("Wizard Wand", 80)
+    ability4 = Ability("Wizard Beard", 20)
+    hero1.add_ability(ability1)
+    hero1.add_ability(ability2)
+    hero2.add_ability(ability3)
+    hero2.add_ability(ability4)
+    hero1.fight(hero2)
